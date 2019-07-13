@@ -2,7 +2,8 @@ exports.meeting = class{
     constructor(startTime, endTime) {
         this.startTime = startTime;
         this.endTime = endTime;
-        this.users = []
+        this.users = [];
+        this.items = [];
     }
 
     addUser(user){
@@ -14,5 +15,9 @@ exports.meeting = class{
         */
 
         this.users.unshift(user);
+    }
+
+    addAgendaItem(item){
+        this.items.unshift(item);
     }
 }   
