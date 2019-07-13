@@ -25,6 +25,8 @@ describe('agenda tests', function(){
         });
     });
 
+    //tests for assuring that voting works correctly
+
     describe('Voting tests', function(){
         let item = new agendaMod.Item(agendaName, agendaDescription, 3, false);
         let usr1 = new userMod.user("Avynn");
@@ -54,8 +56,7 @@ describe('agenda tests', function(){
         it('should prevent a duplication of a user in a category', function(){
             item.addVote(usr1, agendaMod.Item.nay());
             assert.equal(item.usersNay[0], usr1);
-            assert.equal(item.usersNay.length, 2);
-            
+            assert.equal(item.usersNay.length, 2);         
         })
     });
 });
