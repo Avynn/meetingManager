@@ -28,10 +28,11 @@ describe('agenda tests', function(){
     //tests for assuring that voting works correctly
 
     describe('Voting tests', function(){
-        let item = new agendaMod.Item(agendaName, agendaDescription, 3, false);
+        let item = new agendaMod.Item(agendaName, agendaDescription, 3, true);
         let usr1 = new userMod.user("Avynn");
         let usr2 = new userMod.user("Sage");
         let usr3 = new userMod.user("Dan");
+        let badItem = new agendaMod.Item(agendaName, agendaDescription, 3, false);
 
         it('should add a user to the Aye Category', function(){
             item.addVote(usr1, agendaMod.Item.aye());
@@ -57,6 +58,14 @@ describe('agenda tests', function(){
             item.addVote(usr1, agendaMod.Item.nay());
             assert.equal(item.usersNay[0], usr1);
             assert.equal(item.usersNay.length, 2);         
+        });
+
+        it('Should not allow a vote on a non-votable item', function(){
+            assert.throws(function() {badItem.addVote(user1, agendaMod.Item.aye())}, Error, 'This Item is not votable!');
+        });
+
+        it('should not allow a bad enumerated parameter', function(){
+            assert.throws(function() {item.addVote(user1, 3)}, Error, 'Vote parameter is not part of the enumeration!');
         })
     });
 });

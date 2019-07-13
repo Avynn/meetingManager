@@ -17,6 +17,8 @@ describe('Meeting tests', function(){
         })
     });
 
+    //tests for adding users
+
     describe('Add user test', function(){
         let date = new Date();
         let meeting = new meetingMod.meeting(date, date);
@@ -35,12 +37,16 @@ describe('Meeting tests', function(){
         });
     });
 
+    //tests for adding items.
+
     describe('Add item test', function () {
         let date = new Date();
-        let meeting = new meetingMod.meeting(date, date);
+        let endDate = new Date(date.valueOf() + 21 * 60000);
+        let meeting = new meetingMod.meeting(date, endDate);
         let item1 = new itemMod.Item("Item1", "description 1", 3, true);
         let item2 = new itemMod.Item("Item2", "description 2", 3, true);
         let item3 = new itemMod.Item("Item3", "description 3", 15, true);
+        let item4 = new itemMod.Item("Item4", "description 4", 15, true);
 
         it('Should add items to the meeting', function (){
             meeting.addAgendaItem(item1);
@@ -72,6 +78,10 @@ describe('Meeting tests', function(){
             assert.equal(item1.endTime.valueOf(), item2.startTime.valueOf());
             assert.equal(item2.endTime.valueOf(), item3.startTime.valueOf());
             assert.equal(item3.endTime.valueOf(), date3.valueOf());
+        });
+
+        it('should not allow an item that exceeds the meeting time', function(){
+            assert.throws(function () {meeting.addAgendaItem(item4)}, Error, 'Agenda item exceeds meeting time limit');
         });
     });
 });

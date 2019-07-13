@@ -39,6 +39,10 @@ exports.Item = class {
     //END ENUMERATIONS
 
     addVote(user, vote){
+        if(!this.votable){
+            throw new Error('This Item is not votable!');
+        }
+
         if(this.changeVote(user, vote)){
             return;
         }
@@ -50,7 +54,7 @@ exports.Item = class {
         } else if(vote == 2){
             this.usersAbstain.unshift(user);
         } else {
-            throw 'Vote parameter is not part of the enumeration!';
+            throw new Error('Vote parameter is not part of the enumeration!');
         }
     }
 
