@@ -56,30 +56,29 @@ exports.Item = class {
 
     changeVote(user, newVote){
         var index = 0;
-        var voteChanged = false;
 
         if(this.checkForDuplicate(user, this.usersAye)){
             index = this.usersAye.indexOf(user);
             this.usersAye.splice(index, 1);
             this.addVote(user, newVote);
-            voteChanged = true;
+            return true;
         }
 
         if(this.checkForDuplicate(user, this.usersNay)){
             index = this.usersNay.indexOf(user);
             this.usersNay.splice(index, 1);
             this.addVote(user, newVote);
-            voteChanged = true;
+            return true;
         }
 
         if(this.checkForDuplicate(user, this.usersAbstain)){
             index = this.usersAbstain.indexOf(user);
             this.usersAbstain.splice(index, 1);
             this.addVote(user, newVote);
-            voteChanged = true;
+            return true;
         }
 
-        return voteChanged;
+        return false;
     }
 
     checkForDuplicate(user, list){

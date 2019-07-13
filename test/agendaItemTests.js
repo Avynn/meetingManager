@@ -48,13 +48,13 @@ describe('agenda tests', function(){
 
         it('should move a user from the Aye to the Nay category', function(){
             item.addVote(usr1, agendaMod.Item.nay());
-            assert.equal(item.usersAye[0], usr1);
+            assert.equal(item.usersNay[0], usr1);
         });
 
         it('should prevent a duplication of a user in a category', function(){
             item.addVote(usr1, agendaMod.Item.nay());
-            assert.equal(item.usersAye[0], usr1);
-            assert.equal(item.usersAye.length, 2);
+            assert.equal(item.usersNay[0], usr1);
+            assert.equal(item.usersNay.length, 2);
             
         })
     });
