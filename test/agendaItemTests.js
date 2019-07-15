@@ -1,6 +1,6 @@
 var assert = require('assert');
-var agendaMod = require('../agendaItem');
-var userMod = require('../user');
+var agendaMod = require('../model/agendaItem');
+var userMod = require('../model/user');
 
 describe('agenda tests', function(){
     

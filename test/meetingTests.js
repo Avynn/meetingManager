@@ -1,7 +1,7 @@
 var assert = require('assert');
-var meetingMod = require('../meeting');
-var userMod = require('../user');
-var itemMod = require('../agendaItem');
+var meetingMod = require('../model/meeting');
+var userMod = require('../model/user');
+var itemMod = require('../model/agendaItem');
 
 describe('Meeting tests', function(){
     

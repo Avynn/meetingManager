@@ -39,6 +39,14 @@ exports.Item = class {
     //END ENUMERATIONS
 
     addVote(user, vote){
+        /* 
+        (user, (ENUM) vote)
+
+        This procedure adds a user reference to the vote tally based upon the enumerated
+        input passed in as the vote.  using a helper function it allows the user to change votes
+        and prevents users from duplicating their votes.
+        */
+
         if(!this.votable){
             throw new Error('This Item is not votable!');
         }
@@ -59,6 +67,16 @@ exports.Item = class {
     }
 
     changeVote(user, newVote){
+        /*
+        (user, (ENUM) newVote)->Boolean
+
+        This function adds the ability to change a vote and makes sure votes aren't
+        duplicated.  This is done by checking the arrays for a duplicate of the 
+        user in question.  If the user has voted before then the function splices
+        them out of the array and adds their vote to the new array in question
+        by recursively calling the parent function.
+        */
+
         var index = 0;
 
         if(this.checkForDuplicate(user, this.usersAye)){
@@ -86,6 +104,13 @@ exports.Item = class {
     }
 
     checkForDuplicate(user, list){
+        /*
+        (user, Array)->Boolean
+
+        This function uses the for each callback function to check for 
+        a duplicate user in an array passed in as the second parameter.
+        */
+
         var foundDuplicate = false;
 
         list.forEach(element => {
