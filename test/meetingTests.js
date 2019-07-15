@@ -73,15 +73,36 @@ describe('Meeting tests', function(){
         });
 
         it('should set additional items to correct start/end times', function(){
-            let date3 = new Date(item3.startTime.valueOf() + 15 * 60000);
-
             assert.equal(item1.endTime.valueOf(), item2.startTime.valueOf());
             assert.equal(item2.endTime.valueOf(), item3.startTime.valueOf());
-            assert.equal(item3.endTime.valueOf(), date3.valueOf());
+            assert.equal(item3.endTime.valueOf(), endDate.valueOf());
         });
 
         it('should not allow an item that exceeds the meeting time', function(){
             assert.throws(function () {meeting.addAgendaItem(item4)}, Error, 'Agenda item exceeds meeting time limit');
+        });
+
+        it('should move agenda items properly', function(){
+            meeting.moveAgendaItem(item3, 0);
+
+            assert.equal(meeting.items[0], item3);
+            assert.equal(meeting.items[1], item1);
+            assert.equal(meeting.items[2], item2);
+        });
+
+        it('should throw an error for out of bounds indicies', function(){
+            assert.throws(function (){meeting.moveAgendaItem(item3, 40)}, Error, 'item is beyond the bounds of the items list');
+            assert.throws(function (){meeting.moveAgendaItem(item3, -1)}, Error, 'item is beyond the bounds of the items list');
+        });
+
+        it('should throw an error if the item is not on the agenda', function(){
+            assert.throws(function (){meeting.moveAgendaItem(item4, 0)}, Error, 'Item is currently not on the agenda');
+        });
+
+        it('Should adjust item times properly after a move', function(){
+            assert.equal(item3.endTime.valueOf(), item1.startTime.valueOf());
+            assert.equal(item1.endTime.valueOf(), item2.startTime.valueOf());
+            assert.equal(item2.endTime.valueOf(), endDate.valueOf());
         });
     });
 });

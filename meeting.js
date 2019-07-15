@@ -46,4 +46,43 @@ exports.meeting = class{
 
         this.items.push(item);
     }
+
+    moveAgendaItem(item, pos) {
+        /*
+        (agendaItem, Integer)
+
+        This changes the position of the item as well as adjusting the start and end times 
+        of the other items in the agenda.  Position assumes a zero indexed list
+        */
+
+        if(pos > this.items.length || pos < 0){
+            throw new Error('item is beyond the bounds of the items list');
+        }
+
+        let prevPos = this.items.indexOf(item);
+
+        if(prevPos < 0){
+            throw new Error('Item is currently not on the agenda');
+        }
+
+        this.items.splice(prevPos, 1);
+        this.items.splice(pos, 0, item);
+
+        for(var i = 0; i < this.items.length; i ++){
+            var startTime = null;
+            var endTime = null;
+
+            if(i == 0){
+                startTime = new Date(this.startTime.valueOf());
+                endTime = new Date(this.startTime.valueOf() + this.items[i].timeAllotted);
+            } else {
+                startTime = new Date(this.items[i - 1].endTime.valueOf());
+                endTime = new Date(startTime.valueOf() + this.items[i].timeAllotted);
+            }
+
+            this.items[i].startTime = startTime;
+            this.items[i].endTime = endTime;
+
+        }
+    }
 }   
