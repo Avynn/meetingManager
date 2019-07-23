@@ -25,13 +25,13 @@ describe('Data Manager tests', function(){
         let instance = new manageInstancer().getInstance();
 
         it('Should be able to add meetings to the data manager', function(){
-            exMeeting.save();
+            exMeeting.save(null, instance);
 
             assert.equal(instance.meetings[0], exMeeting);
         });
 
         it('should be able to handle multiple meetings', function(){
-            exMeeting1.save();
+            exMeeting1.save(null, instance);
             
             assert.equal(instance.meetings[0], exMeeting);
             assert.equal(instance.meetings[1], exMeeting1);

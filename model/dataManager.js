@@ -34,8 +34,10 @@ class dataManger {
         this.path = path;
 
         fs.readFile(path, (err, data)=>{
-            if(err){
+            if(err.code != "ENOENT"){
                 throw err;
+            } else if(err){
+                return;
             }
 
             this.updateData(data);
@@ -45,9 +47,10 @@ class dataManger {
     updateData(JSONobject){
         let newMeetings = JSON.parse(JSONobject);
         this.meetings = [];
+        var meetings = this.meetings;
 
         newMeetings.forEach(function(element){
-            this.meetings.push(meetingModule.meeting.fromJSON(element));
+            meetings.push(meetingModule.meeting.fromJSON(element));
         });
     }
 }

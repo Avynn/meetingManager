@@ -99,14 +99,20 @@ exports.meeting = class{
         }
     }
 
-    save(path){
+    save(path, instance){
         /* 
         (void)
 
         This procedure adds the meeting to the data manager which will save it to the master JSON file.
         */
 
-        let dataInstance = new dataManagerInstancer().getInstance(path);
+        var dataInstance = null;
+
+        if(instance == null){
+            dataInstance = new dataManagerInstancer().getInstance(path);
+        } else {
+            dataInstance = instance;
+        }
 
         dataInstance.addMeeting(this);
     }
