@@ -15,6 +15,15 @@ describe('Meeting tests', function(){
             assert.equal(meeting.startTime, date);
             assert.equal(meeting.endTime, date);
         })
+
+        it('should instantiate from an equivalent object', function (){
+            let JSONMeeting = meetingMod.meeting.fromJSON(JSON.parse(JSON.stringify(meeting)));
+
+            assert.equal(meeting.startTime.valueOf(), JSONMeeting.startTime.valueOf());
+            assert.equal(meeting.endTime.valueOf(), JSONMeeting.endTime.valueOf());
+            assert.equal(meeting.users.length, JSONMeeting.users.length);
+            assert.equal(meeting.items.length, JSONMeeting.items.length);
+        })
     });
 
     //tests for adding users
@@ -104,5 +113,15 @@ describe('Meeting tests', function(){
             assert.equal(item1.endTime.valueOf(), item2.startTime.valueOf());
             assert.equal(item2.endTime.valueOf(), endDate.valueOf());
         });
+    });
+
+    describe('Read/write tests', function(){
+        let date = new Date();
+        let endDate = new Date(date.valueOf() + 21 * 60000);
+        let meeting = new meetingMod.meeting(date, endDate);
+        let item1 = new itemMod.Item("Item1", "description 1", 3, true);
+        let item2 = new itemMod.Item("Item2", "description 2", 3, true);
+        let item3 = new itemMod.Item("Item3", "description 3", 15, true);
+        let item4 = new itemMod.Item("Item4", "description 4", 15, true);
     });
 });

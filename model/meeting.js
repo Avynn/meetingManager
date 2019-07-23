@@ -1,9 +1,22 @@
+var dataManagerInstancer = require('./dataManager');
+
 exports.meeting = class{
     constructor(startTime, endTime) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.users = [];
         this.items = [];
+    }
+
+    static fromJSON(obj){
+        var meeting = new exports.meeting(null, null);
+
+        meeting.startTime = new Date(obj.startTime);
+        meeting.endTime = new Date(obj.endTime);
+        meeting.users = obj.users;
+        meeting.items = obj.items;
+
+        return meeting;
     }
 
     addUser(user){
@@ -84,5 +97,17 @@ exports.meeting = class{
             this.items[i].endTime = endTime;
 
         }
+    }
+
+    save(path){
+        /* 
+        (void)
+
+        This procedure adds the meeting to the data manager which will save it to the master JSON file.
+        */
+
+        let dataInstance = new dataManagerInstancer().getInstance(path);
+
+        dataInstance.addMeeting(this);
     }
 }   
