@@ -3,8 +3,6 @@ var meetingModule = require('./meeting');
 
 class dataManger {
     constructor() {
-        // this is where data is loaded if it's not in memory
-
         this.path = null;
         this.meetings = [];
     }
