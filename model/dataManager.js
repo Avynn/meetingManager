@@ -32,7 +32,7 @@ class dataManger {
         this.path = path;
 
         fs.readFile(path, (err, data)=>{
-            if(err.code != "ENOENT"){ 
+            if(err != null && err.code != "ENOENT"){ 
                 throw err;
             } else if(err){ //if we're making a new file don't update the data
                 return;
