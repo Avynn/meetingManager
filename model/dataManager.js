@@ -13,7 +13,7 @@ class dataManger {
             throw new Error('Path to master JSON file not specified');
         }
 
-        fs.writeFile(this.path, JSON.stringify(this.meetings), {flag: 'w+'}, function(err){
+        fs.writeFileSync(this.path, JSON.stringify(this.meetings), {flag: 'w+'}, function(err){
             if(err){
                 throw err;
             }
@@ -32,9 +32,9 @@ class dataManger {
         this.path = path;
 
         fs.readFile(path, (err, data)=>{
-            if(err.code != "ENOENT"){
+            if(err.code != "ENOENT"){ 
                 throw err;
-            } else if(err){
+            } else if(err){ //if we're making a new file don't update the data
                 return;
             }
 
