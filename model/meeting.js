@@ -1,7 +1,9 @@
 var dataManagerInstancer = require('./dataManager');
+var uniqid = require('uniqid');
 
 exports.meeting = class{
     constructor(startTime, endTime) {
+        this.id = uniqid();
         this.startTime = startTime;
         this.endTime = endTime;
         this.users = [];

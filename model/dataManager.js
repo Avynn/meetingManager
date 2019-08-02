@@ -28,21 +28,19 @@ class dataManger {
         }
     }
 
-    setPath(path){
+    async setPath(path){
         this.path = path;
 
-        fs.readFile(path, (err, data)=>{
-            if(err != null && err.code != "ENOENT"){ 
-                throw err;
-            } else if(err){ //if we're making a new file don't update the data
-                return;
+        try{
+            this.updateData(fs.readFileSync(path));
+        } catch (error){
+            if(error.code != "ENOENT"){ //if the file doesn't exist do nothing.
+                throw error;
             }
-
-            this.updateData(data);
-        });
+        }
     }
 
-    updateData(JSONobject){
+    async updateData(JSONobject){
         let newMeetings = JSON.parse(JSONobject);
         this.meetings = [];
         var meetings = this.meetings;
@@ -64,9 +62,9 @@ class Instancer {
         Instancer.instance = null;
     }
 
-    getInstance(path){
+    async getInstance(path){
         if(path != Instancer.instance.path && path != null){
-            Instancer.instance.setPath(path);
+            await Instancer.instance.setPath(path);
         }
 
         return Instancer.instance;
