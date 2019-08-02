@@ -68,8 +68,6 @@ describe('Data Manager tests', async function(){
 
                 assert.equal(instance.meetings[0].startTime.valueOf(), exMeeting.startTime.valueOf());
                 assert.equal(instance.meetings[1].startTime.valueOf(), exMeeting1.startTime.valueOf());
-                assert.equal(true,true);
-                console.log("PING");
             });
 
             
