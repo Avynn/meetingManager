@@ -11,9 +11,7 @@ app.use(bodyParse.urlencoded({limit: '50mb', extended: true}));
 
 
 app.get('/meetings', async function(req, res){
-    let instance = new dataInstancer().getInstance('../resources/test.JSON');
-    
-    console.log("PING");
+    let instance = await new dataInstancer().getInstance('../resources/test.JSON');
 
     res.type('json');
     res.send(JSON.stringify(instance.meetings));
