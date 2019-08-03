@@ -13,10 +13,10 @@ exports.meeting = class{
     static fromJSON(obj){
         var meeting = new exports.meeting(null, null);
 
-        meeting.startTime = new Date(obj.startTime);
-        meeting.endTime = new Date(obj.endTime);
-        meeting.users = obj.users;
-        meeting.items = obj.items;
+        meeting.startTime = obj.hasOwnProperty('startTime') ? new Date(obj.startTime) : new Date();
+        meeting.endTime = obj.hasOwnProperty('endTime') ? new Date(obj.endTime) : new Date();
+        meeting.users = obj.hasOwnProperty('users') ? obj.users : [];
+        meeting.items = obj.hasOwnProperty('items') ? obj.items : [];
 
         return meeting;
     }

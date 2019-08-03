@@ -1,4 +1,4 @@
-var assert = require('assert');
+var assert = require('chai').assert;
 var meetingMod = require('../model/meeting');
 var userMod = require('../model/user');
 var itemMod = require('../model/agendaItem');
@@ -23,7 +23,18 @@ describe('Meeting tests', function(){
             assert.equal(meeting.endTime.valueOf(), JSONMeeting.endTime.valueOf());
             assert.equal(meeting.users.length, JSONMeeting.users.length);
             assert.equal(meeting.items.length, JSONMeeting.items.length);
-        })
+            assert.hasAllKeys(JSONMeeting, ['id', 'startTime', 'endTime', 'users', 'items']);
+        });
+
+        it('should init from a partial object', function(){
+            let JSONMeeting = {
+                'startTime' : new Date()
+            }
+
+            let placeholder = meetingMod.meeting.fromJSON(JSONMeeting);
+
+            assert.hasAllKeys(placeholder, ['startTime', 'endTime', 'users', 'items', 'id']);
+        });
     });
 
     //tests for adding users
