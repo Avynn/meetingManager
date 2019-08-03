@@ -49,6 +49,18 @@ class dataManger {
             meetings.push(meetingModule.meeting.fromJSON(element));
         });
     }
+
+    async getMeetingByID(id){
+        let foundMeeting = this.meetings.find(function(element){
+            return element.id == id;
+        });
+
+        if(foundMeeting == null){
+            throw new Error('Meeting with this ID cannot be found');
+        }
+
+        return foundMeeting;
+    }
 }
 
 class Instancer {

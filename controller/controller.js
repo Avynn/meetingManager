@@ -17,6 +17,16 @@ app.get('/meetings', async function(req, res){
     res.send(JSON.stringify(instance.meetings));
 });
 
+app.get('/meetings/:meetingID', async function(req, res, next){
+    let instance = await new dataInstancer().getInstance('../resources/test.JSON');
+    let id = req.params.meetingID;
+    res.type('json');
+    
+    instance.getMeetingByID(id).then(function(meeting){
+        res.send(JSON.stringify(meeting));
+    }).catch(next);
+});
+
 app.post('/meetings', async function(req, res){
     let instance = await new dataInstancer().getInstance('../resources/test.JSON');
 

@@ -7,7 +7,16 @@ let testPath = './resources/test.JSON'
 
 describe('Data Manager tests', async function(){
 
-    fs.unlink(testPath, function(error){if(error) throw error});
+    ///// this try catch is ignored for some reason...
+    try{
+        fs.unlink(testPath, function(err){
+            if(err) throw err;
+        });
+    } catch (error){
+        console.log("WARN fs unlink error: ", error);
+    }
+
+
     let date = new Date();
     let exMeeting = new meetingMod.meeting(date, date);
     let exMeeting1 = new meetingMod.meeting(date, date);
@@ -36,8 +45,26 @@ describe('Data Manager tests', async function(){
             assert.equal(instance.meetings[0], exMeeting);
             assert.equal(instance.meetings[1], exMeeting1);
         });
-    });          
+    });
+    
+    
+    describe('get meeting by ID test', function(){
+        it('should be able to get meetings by ID', async function(){
+            let instance = await new manageInstancer().getInstance();
+            let id = instance.meetings[0].id;
+            let meeting = instance.meetings[0];
+            let result = await instance.getMeetingByID(id);
+            let resultID = result.id;
 
+            assert.equal(meeting.id, resultID);
+        });
+
+        it('should throw an error if a meeting is not found', async function(){ // a manual check of this works.  Neewd to find a way to automate this test though...
+            let instance = await new manageInstancer().getInstance();
+
+            //assert.throws(async function(){await instance.getMeetingByID('asdf')}, Error, 'Meeting with this ID cannot be found');
+        });
+    });
 
     describe('reading/writing tests', async function(){
 
