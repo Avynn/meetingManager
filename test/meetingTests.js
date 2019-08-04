@@ -35,6 +35,16 @@ describe('Meeting tests', function(){
 
             assert.hasAllKeys(placeholder, ['startTime', 'endTime', 'users', 'items', 'id']);
         });
+
+        it('should inherit id from JSON', function(){
+            let JSONMeeting = {
+                'id' : '1234asdf'
+            }
+
+            let placeholder = meetingMod.meeting.fromJSON(JSONMeeting);
+
+            assert.equal(placeholder.id, JSONMeeting.id);
+        })
     });
 
     //tests for adding users
@@ -110,9 +120,16 @@ describe('Meeting tests', function(){
             assert.equal(meeting.items[2], item2);
         });
 
+        it('should remove an item from the agenda', function(){
+            meeting.moveAgendaItem(item3, -1);
+
+            assert.equal(meeting.items[0], item1);
+            assert.equal(meeting.items[1], item2);
+        })
+
         it('should throw an error for out of bounds indicies', function(){
             assert.throws(function (){meeting.moveAgendaItem(item3, 40)}, Error, 'item is beyond the bounds of the items list');
-            assert.throws(function (){meeting.moveAgendaItem(item3, -1)}, Error, 'item is beyond the bounds of the items list');
+            assert.throws(function (){meeting.moveAgendaItem(item3, -4)}, Error, 'item is beyond the bounds of the items list');
         });
 
         it('should throw an error if the item is not on the agenda', function(){
@@ -120,6 +137,9 @@ describe('Meeting tests', function(){
         });
 
         it('Should adjust item times properly after a move', function(){
+            meeting.addAgendaItem(item3);
+            meeting.moveAgendaItem(item3, 0);
+
             assert.equal(item3.endTime.valueOf(), item1.startTime.valueOf());
             assert.equal(item1.endTime.valueOf(), item2.startTime.valueOf());
             assert.equal(item2.endTime.valueOf(), endDate.valueOf());

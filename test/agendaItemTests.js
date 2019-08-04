@@ -1,4 +1,4 @@
-var assert = require('assert');
+var assert = require('chai').assert;
 var agendaMod = require('../model/agendaItem');
 var userMod = require('../model/user');
 
@@ -23,6 +23,26 @@ describe('agenda tests', function(){
         it('Should contain the value of 3 minutes in milliseconds', function(){
             assert.equal(item.timeAllotted, 3 * 60000);
         });
+
+        it('should initiate from partial JSON object', function(){
+            let example = {
+                name: "vote to eat the rich",
+                description: "We vote on whether or not to eat the rich"
+            };
+
+            let placeholder = agendaMod.Item.fromJSON(example);
+
+            assert.hasAllKeys(placeholder, ['id', 'name', 'description', 'timeAllotted', 'votable', 
+            'usersAye', 'usersNay', 'usersAbstain', 'startTime', 'endTime']);
+        });
+
+        it('should inherit id from JSON object', function(){
+            let example = {id: '1234asdf'};
+
+            let placeholder = agendaMod.Item.fromJSON(example);
+            
+            assert.equal(example.id, placeholder.id);
+        })
     });
 
     //tests for assuring that voting works correctly
@@ -61,11 +81,11 @@ describe('agenda tests', function(){
         });
 
         it('Should not allow a vote on a non-votable item', function(){
-            assert.throws(function() {badItem.addVote(user1, agendaMod.Item.aye())}, Error, 'This Item is not votable!');
+            assert.throws(function() {badItem.addVote(usr1, agendaMod.Item.aye())}, Error, 'This Item is not votable!');
         });
 
         it('should not allow a bad enumerated parameter', function(){
-            assert.throws(function() {item.addVote(user1, 3)}, Error, 'Vote parameter is not part of the enumeration!');
+            assert.throws(function() {item.addVote(usr1, 3)}, Error, 'Vote parameter is not part of the enumeration!');
         })
     });
 });

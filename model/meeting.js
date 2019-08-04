@@ -2,8 +2,8 @@ var dataManagerInstancer = require('./dataManager');
 var uniqid = require('uniqid');
 
 exports.meeting = class{
-    constructor(startTime, endTime) {
-        this.id = uniqid();
+    constructor(startTime, endTime, id) {
+        this.id = id != null ? id : uniqid();
         this.startTime = startTime;
         this.endTime = endTime;
         this.users = [];
@@ -11,12 +11,16 @@ exports.meeting = class{
     }
 
     static fromJSON(obj){
-        var meeting = new exports.meeting(null, null);
+        let id = obj.hasOwnProperty('id') ? obj.id : null;
+
+        var meeting = new exports.meeting(null, null, id);
 
         meeting.startTime = obj.hasOwnProperty('startTime') ? new Date(obj.startTime) : new Date();
         meeting.endTime = obj.hasOwnProperty('endTime') ? new Date(obj.endTime) : new Date();
         meeting.users = obj.hasOwnProperty('users') ? obj.users : [];
         meeting.items = obj.hasOwnProperty('items') ? obj.items : [];
+
+        //need to init array of objects here....
 
         return meeting;
     }
@@ -67,10 +71,11 @@ exports.meeting = class{
         (agendaItem, Integer)
 
         This changes the position of the item as well as adjusting the start and end times 
-        of the other items in the agenda.  Position assumes a zero indexed list
+        of the other items in the agenda.  Position assumes a zero indexed list.  To remove 
+        an item pass in -1 as the parameter for pos.
         */
 
-        if(pos > this.items.length || pos < 0){
+        if(pos > this.items.length || (pos < 0 && pos != -1)){
             throw new Error('item is beyond the bounds of the items list');
         }
 
@@ -81,7 +86,9 @@ exports.meeting = class{
         }
 
         this.items.splice(prevPos, 1);
-        this.items.splice(pos, 0, item);
+        if(pos != -1){
+            this.items.splice(pos, 0, item);
+        }
 
         for(var i = 0; i < this.items.length; i ++){
             var startTime = null;

@@ -1,5 +1,7 @@
+var uniqid = require('uniqid');
+
 exports.Item = class {
-    constructor(name, description, timeAllotted, votable){
+    constructor(name, description, timeAllotted, votable, id){
         /*
         (String, String, Number, Boolean)
 
@@ -10,7 +12,7 @@ exports.Item = class {
         a boolean representing whether or not the agenda item is something to be voted upon.
         */
 
-
+        this.id = id != null ? id : uniqid();
         this.name = name;
         this.description = description;
         this.timeAllotted = timeAllotted * 60000;
@@ -20,6 +22,18 @@ exports.Item = class {
         this.usersAbstain = [];
         this.startTime = null;
         this.endTime = null;
+    }
+
+    static fromJSON(obj){
+        let name = obj.hasOwnProperty('name') ? obj.name : null;
+        let description = obj.hasOwnProperty('description') ? obj.description : null;
+        let timeAllotted = obj.hasOwnProperty('timeAllotted') ? obj.timeAllotted : 0;
+        let votable = obj.hasOwnProperty('votable') ? obj.votable : false;
+        let id = obj.hasOwnProperty('id') ? obj.id : null; 
+
+        let newItem = new exports.Item(name, description, timeAllotted, votable, id);
+
+        return newItem;
     }
 
     //AYE, NAY, ABSTAIN enumerations

@@ -1,6 +1,7 @@
 var assert = require('assert');
 var manageInstancer = require('../model/dataManager');
 var meetingMod = require('../model/meeting');
+var agendaMod = require('../model/agendaItem');
 var fs = require('fs');
 
 let testPath = './resources/test.JSON'
@@ -18,8 +19,9 @@ describe('Data Manager tests', async function(){
 
 
     let date = new Date();
+    let endDate = new Date(date.valueOf() + 3 * 60000);
     let exMeeting = new meetingMod.meeting(date, date);
-    let exMeeting1 = new meetingMod.meeting(date, date);
+    let exMeeting1 = new meetingMod.meeting(date, endDate);
 
     describe('init tests', function(){
         it('Should be a singleton', async function(){
@@ -77,7 +79,9 @@ describe('Data Manager tests', async function(){
         
                 it('should successfully write to a file', async function(){
                     let instance = await new manageInstancer().getInstance(testPath);
-        
+                    let item = new agendaMod.Item('example', 'description', 3, true);
+                    instance.meetings[1].addAgendaItem(item);
+
                     resolve(instance.save());
                 });
             });
