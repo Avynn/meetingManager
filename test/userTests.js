@@ -7,7 +7,7 @@ describe('User tests', function(){
     
     describe('Init tests', function(){
 
-        describe('#user.name', function (){
+        describe('user.name', function (){
 
             it('Should return the name set by the constructor', function () {
                 var usr = new userMod.user('Avynn');

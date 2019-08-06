@@ -44,6 +44,37 @@ describe('Meeting tests', function(){
             let placeholder = meetingMod.meeting.fromJSON(JSONMeeting);
 
             assert.equal(placeholder.id, JSONMeeting.id);
+        });
+
+        describe('Initialization with items', function(){
+
+            let start = new Date();
+            let end = new Date(start.valueOf() + 3 * 60000);
+
+            let JSONMeeting = {
+                'startTime' : start.toString(),
+                'endTime' : end.toString(),
+                'items' : [
+                    {id:'123abc'},
+                    {id:'223abc'},
+                    {id:'323abc'}
+                ]
+            };
+
+            let meeting = meetingMod.meeting.fromJSON(JSONMeeting);
+
+            it('should be able to init agendas properly', function(){
+                meeting.items.forEach(function(item){
+                    assert.hasAllKeys(item, ['id', 'name', 'description', 'timeAllotted', 'votable', 
+                    'usersAye', 'usersNay', 'usersAbstain', 'startTime', 'endTime']);
+                });
+            });
+
+            it('should be maintain agenda item order', function(){
+                for(var i  = 0; i < 3; i++){
+                    assert.equal(meeting.items[i].id, JSONMeeting.items[i].id);
+                }
+            })
         })
     });
 
@@ -66,6 +97,23 @@ describe('Meeting tests', function(){
             assert.equal(meeting.users[2], usr1);
         });
     });
+
+    describe('Query items test', function(){
+        it('should be able to query for items by ID', function(){
+            let start = new Date();
+            let end = new Date(start.valueOf + 3 * 60000);
+
+            let meeting = new meetingMod.meeting(start, end);
+            let item = new itemMod.Item("item", "description", 1, true);
+            let ID = item.id;
+
+            meeting.addAgendaItem(item);
+
+            let query = meeting.getAgendaItemByID(ID);
+
+            assert.equal(query.id, ID);
+        });
+    })
 
     //tests for adding items.
 
@@ -144,15 +192,5 @@ describe('Meeting tests', function(){
             assert.equal(item1.endTime.valueOf(), item2.startTime.valueOf());
             assert.equal(item2.endTime.valueOf(), endDate.valueOf());
         });
-    });
-
-    describe('Read/write tests', function(){
-        let date = new Date();
-        let endDate = new Date(date.valueOf() + 21 * 60000);
-        let meeting = new meetingMod.meeting(date, endDate);
-        let item1 = new itemMod.Item("Item1", "description 1", 3, true);
-        let item2 = new itemMod.Item("Item2", "description 2", 3, true);
-        let item3 = new itemMod.Item("Item3", "description 3", 15, true);
-        let item4 = new itemMod.Item("Item4", "description 4", 15, true);
     });
 });

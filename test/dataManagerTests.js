@@ -19,7 +19,7 @@ describe('Data Manager tests', async function(){
 
 
     let date = new Date();
-    let endDate = new Date(date.valueOf() + 3 * 60000);
+    let endDate = new Date(date.valueOf() + 4 * 60000);
     let exMeeting = new meetingMod.meeting(date, date);
     let exMeeting1 = new meetingMod.meeting(date, endDate);
 
@@ -79,8 +79,10 @@ describe('Data Manager tests', async function(){
         
                 it('should successfully write to a file', async function(){
                     let instance = await new manageInstancer().getInstance(testPath);
-                    let item = new agendaMod.Item('example', 'description', 3, true);
+                    let item = new agendaMod.Item('example', 'description', 1, true);
+                    let item2 = new agendaMod.Item('example', 'description', 1, true);
                     instance.meetings[1].addAgendaItem(item);
+                    instance.meetings[1].addAgendaItem(item2);
 
                     resolve(instance.save());
                 });

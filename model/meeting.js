@@ -1,4 +1,5 @@
 var dataManagerInstancer = require('./dataManager');
+var agendaMod = require('./agendaItem');
 var uniqid = require('uniqid');
 
 exports.meeting = class{
@@ -18,11 +19,20 @@ exports.meeting = class{
         meeting.startTime = obj.hasOwnProperty('startTime') ? new Date(obj.startTime) : new Date();
         meeting.endTime = obj.hasOwnProperty('endTime') ? new Date(obj.endTime) : new Date();
         meeting.users = obj.hasOwnProperty('users') ? obj.users : [];
-        meeting.items = obj.hasOwnProperty('items') ? obj.items : [];
+        obj.hasOwnProperty('items') ? meeting.initAgendaList(obj.items) : meeting.items =  []; //can throw time exceeds limit error
 
-        //need to init array of objects here....
+        //need to init array of users here....
 
         return meeting;
+    }
+
+    initAgendaList(objList){
+        let thisRef = this;
+
+        objList.forEach(function(item){
+            let newItem = agendaMod.Item.fromJSON(item);
+            thisRef.addAgendaItem(newItem); //can throw time exceeds limit error
+        })
     }
 
     addUser(user){
@@ -106,6 +116,18 @@ exports.meeting = class{
             this.items[i].endTime = endTime;
 
         }
+    }
+
+    getAgendaItemByID(ID){
+        let foundItem = this.items.find(function(item){
+            return ID == item.id;
+        })
+
+        if(foundItem == null){
+            throw new Error('Item with that ID does not exist');
+        }
+
+        return foundItem
     }
 
     save(path, instance){

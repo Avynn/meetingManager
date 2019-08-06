@@ -27,7 +27,7 @@ exports.Item = class {
     static fromJSON(obj){
         let name = obj.hasOwnProperty('name') ? obj.name : null;
         let description = obj.hasOwnProperty('description') ? obj.description : null;
-        let timeAllotted = obj.hasOwnProperty('timeAllotted') ? obj.timeAllotted : 0;
+        let timeAllotted = obj.hasOwnProperty('timeAllotted') ? obj.timeAllotted / 60000 : 0;
         let votable = obj.hasOwnProperty('votable') ? obj.votable : false;
         let id = obj.hasOwnProperty('id') ? obj.id : null; 
 
@@ -125,14 +125,12 @@ exports.Item = class {
         a duplicate user in an array passed in as the second parameter.
         */
 
-        var foundDuplicate = false;
-
-        list.forEach(element => {
-            if(element === user){
-                foundDuplicate = true;
-            }
-        });
-        
-        return foundDuplicate;
+        if(list.find(function(item){
+            return user.name == item.name;
+        }) != null){
+            return true;
+        } else {
+            return false;
+        }
     }
 }
