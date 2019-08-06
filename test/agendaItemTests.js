@@ -88,4 +88,46 @@ describe('agenda tests', function(){
             assert.throws(function() {item.addVote(usr1, 3)}, Error, 'Vote parameter is not part of the enumeration!');
         })
     });
+
+    describe('patching tests', function(){
+        let noChange = {};
+        let allChange = {
+            'name' : 'NAME',
+            'description' : 'DESCRIPTION',
+            'timeAllotted' : 3,
+            'votable' : false
+        };
+        let partialChange = {
+            'name' : 'naME'
+        };
+
+        let item = new agendaMod.Item('name','description', 1, true);
+
+        it('should maintain itself when no fields change', function(){
+            item.patchItem(noChange);
+
+            assert.equal(item.name, 'name');
+            assert.equal(item.description, 'description');
+            assert.equal(item.timeAllotted, 1 * 60000);
+            assert.equal(item.votable, true);
+        });
+
+        it('should maintain most changes with a partial change', function(){
+            item.patchItem(partialChange);
+
+            assert.equal(item.name, 'naME');
+            assert.equal(item.description, 'description');
+            assert.equal(item.timeAllotted, 1 * 60000);
+            assert.equal(item.votable, true);
+        });
+
+        it('should completely change with a full change', function(){
+            item.patchItem(allChange);
+
+            assert.equal(item.name, 'NAME');
+            assert.equal(item.description, 'DESCRIPTION');
+            assert.equal(item.timeAllotted, 3 * 60000);
+            assert.equal(item.votable, false);
+        });
+    })
 });

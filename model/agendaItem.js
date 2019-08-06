@@ -33,7 +33,19 @@ exports.Item = class {
 
         let newItem = new exports.Item(name, description, timeAllotted, votable, id);
 
+        //These will have to be inittied like meetings init items in the futre.
+        newItem.usersAye = obj.hasOwnProperty('usersAye') ? obj.usersAye : newItem.usersAye;
+        newItem.usersNay = obj.hasOwnProperty('usersNay') ? obj.usersNay : newItem.usersNay;
+        newItem.usersAbstain = obj.hasOwnProperty('usersAbstain') ? obj.usersAbstain : newItem.abstain;
+
         return newItem;
+    }
+
+    patchItem(obj){
+        this.name = obj.hasOwnProperty('name') ? obj.name : this.name;
+        this.description = obj.hasOwnProperty('description') ? obj.description : this.description;
+        this.timeAllotted = obj.hasOwnProperty('timeAllotted') ? obj.timeAllotted * 60000 : this.timeAllotted;
+        this.votable = obj.hasOwnProperty('votable') ? obj.votable : this.votable;
     }
 
     //AYE, NAY, ABSTAIN enumerations

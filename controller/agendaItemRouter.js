@@ -1,5 +1,6 @@
 var express = require('express');
 var dataInstancer = require('../model/dataManager');
+var itemMod = require('../model/agendaItem');
 var router = express.Router();
 
 router.use(async function (req, _, next){
@@ -17,6 +18,46 @@ router.use(async function (req, _, next){
 });
 
 router.get('/', async function (req, res){
+    res.type('json');
+    res.send(JSON.stringify(req.meetingBody.items));
+});
+
+router.post('/', async function(req, res, next){
+    let item = req.body;
+    
+    try{
+        req.meetingBody.addAgendaItem(itemMod.Item.fromJSON(item));
+        req.dataInstance.save();
+    } catch (error) {
+        next(error);
+    }
+
+    res.type('json');
+    res.send(JSON.stringify(req.meetingBody.items));
+});
+
+router.patch('/', async function(req, res, next){
+    let patch = req.body.patch;
+    let pos = req.body.pos;
+
+    if(pos == null){
+        next(new Error('No position indicated in request'));
+    }
+
+    if(patch == null || patch.id == null){
+        next(new Error('No such item on record'));
+    }
+
+    var item = req.meetingBody.getAgendaItemByID(patch.id);
+    item.patchItem(patch);
+
+    try{
+        req.meetingBody.moveAgendaItem(item, pos);
+        req.dataInstance.save();
+    } catch (error){
+        next(error);
+    }
+
     res.type('json');
     res.send(JSON.stringify(req.meetingBody.items));
 });
