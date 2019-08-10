@@ -4,6 +4,8 @@
   "description": "A meeting manager for DSA meetings",
   "main": "index.js",
   "dependencies": {
+    "cors": "^2.8.5",
+    "isomorphic-unfetch": "^3.0.0",
     "npm": "^6.10.1"
   },
   "devDependencies": {
@@ -11,11 +13,16 @@
     "chai": "^4.2.0",
     "express": "^4.17.1",
     "mocha": "^6.1.4",
+    "next": "^9.0.3",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
     "request": "^2.88.0",
     "uniqid": "^5.0.3"
   },
   "scripts": {
-    "start": "node index.js",
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
     "test": "mocha"
   },
   "author": "Avynn Donaghe",
