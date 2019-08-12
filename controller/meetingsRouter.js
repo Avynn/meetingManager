@@ -5,6 +5,9 @@ var agendaItemRouter = require('./agendaItemRouter');
 var router = express.Router();
 
 router.get('/', async function(req, res){
+
+    //TODO: only serve necessary elements of the meetings
+
     let instance = await new dataInstancer().getInstance('./resources/test.JSON');
 
     res.type('json');
