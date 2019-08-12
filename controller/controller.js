@@ -15,7 +15,8 @@ Gotta fix these filepath issues.
 app.use(bodyParse.json({limit: '50mb', extended: true}));
 app.use(bodyParse.urlencoded({limit: '50mb', extended: true}));
 
+app.use(cors());
+
 app.use('/meetings', meetingsRouter);
-app.use(cors())
 
 app.listen(port);

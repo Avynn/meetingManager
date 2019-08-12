@@ -1,23 +1,24 @@
 import { useRouter } from 'next/router';
 import Layout from '../../comps/Layout';
 import Meeting from '../../comps/Meeting';
+import Link from 'next/link'
 
 const MeetingPage = function(props){
     const router = useRouter();
 
-    console.log("PINGPINGPING");
-
     return(<Layout>
-        <h1>{router.query.id}</h1>
         <Meeting data={props.data} />
+        <Link href='/'>
+            <a>back</a>
+        </Link>
     </Layout>);
 }
 
 MeetingPage.getInitialProps = async function(context) {
     const { id } = context.query;
     const res = await fetch(`http://localhost:8080/meetings/${id}`);
-    const data = res.json();
-
+    const data = await res.json();
+    
     return { data };
 }
 
