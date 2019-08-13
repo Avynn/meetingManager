@@ -1,8 +1,12 @@
+import Item from './Item';
+
 const ItemList = function(props){
     return (
     <div>
         <h3>Items: </h3>
-        {props.children}
+        {props.items.map(item => (
+            <Item Data={item} />
+        ))}
     </div>
     );
 }
