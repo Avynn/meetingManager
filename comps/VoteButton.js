@@ -9,9 +9,11 @@ class VoteButton extends React.Component {
         }
 
         this.onClickHandler = this.onClickHandler.bind(this);
+        this.initGraphData = this.initGraphData.bind(this);
     }
 
     onClickHandler(){
+        let thisRef = this;
         let label = this.props.label;
         var voteNum = 2;
 
@@ -28,9 +30,6 @@ class VoteButton extends React.Component {
             vote: voteNum
         }
 
-        console.log(`meetingID: ${this.props.meetingID}`);
-        console.log(`itemID: ${this.props.itemID}`);
-
         //send JSON.stringify request to server.
 
         fetch(`http://localhost:8080/meetings/${this.props.meetingID}/items/${this.props.itemID}`, { //TODO: needs authentication header
@@ -39,7 +38,19 @@ class VoteButton extends React.Component {
                 'content-type' : 'application/json'
             },
             body : JSON.stringify(reqObject)
-        }).then(response => console.log(response));
+        }).then(async function(response){
+            //call this.props.updateGraph()
+            let res = await response.json();
+            let newData = thisRef.initGraphData(res);
+
+            thisRef.props.updateGraph(newData);
+        });
+    }
+
+    initGraphData(response){
+        return [{name: 'Aye', value: response.usersAye.length},
+        {name: 'Nay', value: response.usersNay.length},
+        {name:'Abstain', value: response.usersAbstain.length}]
     }
 
     render(){
