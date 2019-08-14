@@ -1,5 +1,7 @@
 import Header from './Header';
 
+//const UserContext = React.createContext('Avynn'); //TODO: Should have a globally accessible variable for current authenticated user
+
 const layoutStyle = {
     margin : 20,
     padding : 20,

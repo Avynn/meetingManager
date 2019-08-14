@@ -16,7 +16,7 @@ class Meeting extends React.Component {
             <p>{new Date(this.props.data.startTime).toLocaleDateString("en-US", options)}</p>
             <h3>End time: </h3>
             <p>{new Date(this.props.data.endTime).toLocaleDateString("en-US", options)}</p>
-            <ItemList items = {this.props.data.items} />            
+            <ItemList items = {this.props.data.items} meetingID = {this.props.data.id} />            
         </div>
         )
     }

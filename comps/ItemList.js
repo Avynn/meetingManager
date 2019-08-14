@@ -5,7 +5,7 @@ const ItemList = function(props){
     <div>
         <h3>Items: </h3>
         {props.items.map(item => (
-            <Item Data={item} />
+            <Item Data={item} meetingID={props.meetingID}/>
         ))}
     </div>
     );
