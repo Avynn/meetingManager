@@ -1,6 +1,7 @@
 import Layout from '../comps/Layout';
 import Link from 'next/link';
 import fetch from 'isomorphic-unfetch';
+import IndexHeader from '../comps/IndexHeader';
 
 const serviceURL = 'http://localhost:8080/meetings'
 
@@ -9,6 +10,7 @@ const Index = function(props){
     let options  = {hour:"numeric", minute: "numeric", timeStyle:"long", hour12: true}
     return (
     <Layout>
+      <IndexHeader />
       <ul>
         {props.meetings.map(meeting => (
           <li key={meeting.id}>

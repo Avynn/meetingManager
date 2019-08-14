@@ -30,8 +30,6 @@ class VoteButton extends React.Component {
             vote: voteNum
         }
 
-        //send JSON.stringify request to server.
-
         fetch(`http://localhost:8080/meetings/${this.props.meetingID}/items/${this.props.itemID}`, { //TODO: needs authentication header
             method: 'PATCH',
             headers: {

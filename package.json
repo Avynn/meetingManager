@@ -4,9 +4,11 @@
   "description": "A meeting manager for DSA meetings",
   "main": "index.js",
   "dependencies": {
+    "@zeit/next-css": "^1.0.1",
     "cors": "^2.8.5",
     "isomorphic-unfetch": "^3.0.0",
     "npm": "^6.10.1",
+    "react-datepicker": "^2.8.0",
     "recharts": "^1.7.1"
   },
   "devDependencies": {
