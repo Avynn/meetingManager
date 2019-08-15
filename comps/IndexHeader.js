@@ -6,11 +6,9 @@ class IndexHeader extends React.Component {
     }
 
     render(){
-        return(
+        return( //THIS IS THE ONLY WAY NEXT WILL LOAD THIS PAGE I HAVE NO IDEA WHY
             <div>
-                <Link href="/addMeeting">
-                    <a>Add Meeting</a>
-                </Link>
+                <a href={"http://localhost:3000/newmeeting"}>add a meeting</a> 
             </div>
         );
     }

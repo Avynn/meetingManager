@@ -16,15 +16,16 @@ router.get('/', async function(req, res){
 
 router.post('/', async function(req, res){
     let instance = await new dataInstancer().getInstance('./resources/test.JSON');
+    let newMeeting = meetingMod.meeting.fromJSON(req.body);
 
     let postResult = new Promise(function(resolve, _){
-        resolve(meetingMod.meeting.fromJSON(req.body).save(null, instance));
+        resolve(newMeeting.save(null, instance));
     });
 
     await postResult;
 
     res.type('json');
-    res.send(JSON.stringify(instance.meetings));
+    res.send(JSON.stringify(newMeeting));
 });
 
 router.get('/:meetingID', async function(req, res, next){

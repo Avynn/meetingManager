@@ -1,4 +1,5 @@
 import DatePicker from 'react-datepicker';
+import { withRouter } from 'next/router'
 
 import 'react-datepicker/dist/react-datepicker.css'
 
@@ -27,9 +28,13 @@ class MeetingForm extends React.Component {
     }
 
     handleSubmit(event) {
+        let thisRef = this;
+
         console.log(`name: ${this.state.name}`); //TODO: add a name field to the back end
         console.log(`startTime: ${this.state.startTime}`);
         console.log(`endTime: ${this.state.endTime}`);
+
+        event.preventDefault();
 
         let reqBody = {
             startTime: this.state.startTime,
@@ -43,10 +48,12 @@ class MeetingForm extends React.Component {
             },
             body : JSON.stringify(reqBody)
         }).then(async function(response){
-            //Redirect user to said meeting page.
-        })
+            let body = await response.json();
+            let id = body.id;
+            let href = `/m/${id}`;
 
-        event.preventDefault();
+            thisRef.props.router.push(href);
+        })
     }
 
     render(){
@@ -57,7 +64,7 @@ class MeetingForm extends React.Component {
                     <input type="text" onChange={this.handleNameChange} />
                 </label>
                 <label>
-                    start date:
+                    start time:
                     <DatePicker 
                         selected={this.state.startTime} 
                         onChange={this.handlestartTimeChange}
@@ -68,7 +75,7 @@ class MeetingForm extends React.Component {
                     />
                 </label>
                 <label>
-                    end date:
+                    end time:
                     <DatePicker 
                         selected={this.state.endTime} 
                         onChange={this.handleEndTimeChange}
@@ -84,4 +91,5 @@ class MeetingForm extends React.Component {
     }
 }
 
-export default MeetingForm;
+
+export default withRouter(MeetingForm);
