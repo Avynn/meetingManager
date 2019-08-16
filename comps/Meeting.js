@@ -1,4 +1,5 @@
 import ItemList from './ItemList';
+import Link from 'next/link';
 
 class Meeting extends React.Component {
     constructor(props){

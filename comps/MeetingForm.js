@@ -41,7 +41,7 @@ class MeetingForm extends React.Component {
             endTime: this.state.endTime
         }
 
-        fetch('http://localhost:8080/meetings', {
+        fetch('http://localhost:8080/meetings', { //TODO needs authentication
             method: 'POST',
             headers: {
                 'content-type' : 'application/json'
