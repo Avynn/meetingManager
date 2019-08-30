@@ -46,7 +46,15 @@ class Item extends React.Component {
     }
 
     render(){
-        let options  = {hour:"numeric", minute: "numeric", timeStyle:"long", hour12: true}
+        /*
+        RENDER DESCRIPTION:
+
+        This render method handles one of two possibilities inhertied from this.state, Either the current component is in editing
+        mode allowing the user to change the details of the selected agenda item or its in display mode which allows users to vote
+        and read the relevant data.
+        */
+
+        let options  = {hour:"numeric", minute: "numeric", timeStyle:"long", hour12: true} //Options parameter for date string
         let voteData = this.props.Data.votable ? [{name: 'Aye', value: this.props.Data.usersAye.length},{name: 'Nay', value: this.props.Data.usersNay.length},{name:'Abstain', value: this.props.Data.usersAbstain.length}] : null; //Severely duct-taped, something is wrong with the model... sigh
         let editing = this.state.editing;
 
@@ -61,7 +69,7 @@ class Item extends React.Component {
             <p>{new Date(this.props.Data.startTime).toLocaleTimeString("en-US", options)}</p>
             <h4>end time</h4>
             <p>{new Date(this.props.Data.endTime).toLocaleTimeString("en-US", options)}</p>
-            {this.props.Data.votable? <VotePanel voteData={voteData} itemID={this.props.Data.id} meetingID={this.props.meetingID}/>:null}
+            {this.state.currVotableStatus? <VotePanel voteData={voteData} itemID={this.props.Data.id} meetingID={this.props.meetingID}/>:null}
         </div>)
 
         let editingView = (<div style={this.style}>
