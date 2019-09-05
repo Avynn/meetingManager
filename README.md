@@ -33,17 +33,9 @@ on the API endpoints what headers they expect and the bodies that they return:
 
 currently the backend is configured to allow for all (*) CORS requests.  This will obviously change closer to release.
 
-### /meetings
+### GET /meetings
 
-Headers required:
-
-```
-{
-    Content-Type: application/json
-}
-```
-
-Body Returned:
+Body response example:
 
 the body that is returned depends on the current state of the backend but currently the body returned will be a list
 of the JSON representations of each meeting currently written to a JSON file on the server's drive.  This will obviously 
@@ -64,17 +56,6 @@ have to change as the number of meetings goes up but for our purposes currently 
         "endTime": "2019-08-06T21:14:59.042Z",
         "users": [],
         "items": [
-            {
-                "id": "1dk4ife94jz0c8soh",
-                "name": "From Poop",
-                "description": "hello there",
-                "timeAllotted": 0,
-                "votable": false,
-                "usersAye": [],
-                "usersNay": [],
-                "startTime": "2019-08-06T21:10:59.042Z",
-                "endTime": "2019-08-06T21:10:59.042Z"
-            },
             {
                 "id": "1dk4ifai8jz0bixwj",
                 "name": "example",
@@ -122,3 +103,129 @@ have to change as the number of meetings goes up but for our purposes currently 
     }
 ]
 ```
+
+meeting format description:
+
+the meeting format is as follows:
+
+id: a uniquely generated id string
+
+startTime: the starting time generated from a Date().toString() method
+
+endtTime: the ending time generated frome a Date().toString() method
+
+users: a list of users (to be fleshed out in the future)
+
+items: a list of items (described below)
+
+### POST /meetings
+
+This endpoint is for creating new meetings and adding them to the list of meetings.  
+
+request body:
+
+Any or none of the aforementioned meeting fields EXCEPT for the ID field.  passing an ID for a meeting that already exists will result in undefined behavior (yes I'm adding this to a todo list).  This is because an ID will be assigned automatically by the backend.
+
+body response example:
+
+The newly created meeting.
+
+```
+{
+    "id": "1dk4ifbfwk0701nl3",
+    "startTime": "2019-09-05T18:03:42.000Z",
+    "endTime": "2019-09-05T18:03:42.000Z",
+    "users": [],
+    "items": []
+}
+```
+
+### GET /meetings/:meetingID/
+
+This endpoint is for fetching a single meeting by ID.
+
+body response example:
+
+```
+{
+    "id": "1dk4ifai8jz0bixur",
+    "startTime": "2019-08-06T21:10:59.042Z",
+    "endTime": "2019-08-06T21:10:59.042Z",
+    "users": [],
+    "items": []
+}
+```
+
+### GET /meetings/:meetingID/items/
+
+this endpoint fetches all the agenda items associated with a meeting.
+
+body response:
+
+```
+]
+    {
+        "id": "1dk4ifai8jz0bixwj",
+        "name": "example",
+        "description": "description",
+        "timeAllotted": 60000,
+        "votable": true,
+        "usersAye": [],
+        "usersNay": [
+            {
+                "name": "Avynn"
+            }
+        ],
+        "usersAbstain": [],
+        "startTime": "2019-08-06T21:10:59.042Z",
+        "endTime": "2019-08-06T21:11:59.042Z"
+    },
+    {
+        "id": "1dk4ifai8jz0bixwk",
+        "name": "example",
+        "description": "description",
+        "timeAllotted": 60000,
+        "votable": true,
+        "usersAye": [],
+        "usersNay": [],
+        "usersAbstain": [
+            {
+                "name": "Avynn"
+            }
+        ],
+        "startTime": "2019-08-06T21:11:59.042Z",
+        "endTime": "2019-08-06T21:12:59.042Z"
+    },
+    {
+        "id": "1dk4ife94jz0c9fj6",
+        "name": "From Postman",
+        "description": "hello from postman",
+        "timeAllotted": 0,
+        "votable": false,
+        "usersAye": [],
+        "usersNay": [],
+        "startTime": "2019-08-06T21:12:59.042Z",
+        "endTime": "2019-08-06T21:12:59.042Z"
+    }
+]
+```
+
+the item description is as follows:
+
+id: a uniquely generated ID for the item
+
+name: the user generated name for the item
+
+description: the user generated name for the item
+
+votabe: a boolean describing whether or not this item is votable
+
+usersAye: a list of users that have voted for this item
+
+usersNay: a list of users that have voted against this item
+
+usersAbstain: a list of users that have abstained from voting on this item
+
+startTime: a Date().toString() that is determined by the end time of the previous item.  If this is the first item it inherits the start time of the meeting.
+
+endTime:  a Date().toString() that is determined by the start time + the duration of the agenda item.

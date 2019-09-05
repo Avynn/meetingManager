@@ -21,6 +21,8 @@ class dataManger {
     }
 
     addMeeting(meeting){
+        //TODO: do NOT add meeting if one with the current ID exists.
+
         this.meetings.push(meeting);
 
         if(this.path != null){
