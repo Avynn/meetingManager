@@ -106,17 +106,15 @@ have to change as the number of meetings goes up but for our purposes currently 
 
 meeting format description:
 
-the meeting format is as follows:
+- id: a uniquely generated id string
 
-id: a uniquely generated id string
+- startTime: the starting time generated from a Date().toString() method
 
-startTime: the starting time generated from a Date().toString() method
+- endtTime: the ending time generated frome a Date().toString() method
 
-endtTime: the ending time generated frome a Date().toString() method
+- users: a list of users (to be fleshed out in the future)
 
-users: a list of users (to be fleshed out in the future)
-
-items: a list of items (described below)
+- items: a list of items (described below)
 
 ### POST /meetings
 
@@ -212,20 +210,33 @@ body response:
 
 the item description is as follows:
 
-id: a uniquely generated ID for the item
+- id: a uniquely generated ID for the item
 
-name: the user generated name for the item
+- name: the user generated name for the item
 
-description: the user generated name for the item
+- description: the user generated name for the item
 
-votabe: a boolean describing whether or not this item is votable
+- votabe: a boolean describing whether or not this item is votable
 
-usersAye: a list of users that have voted for this item
+- usersAye: a list of users that have voted for this item
 
-usersNay: a list of users that have voted against this item
+- usersNay: a list of users that have voted against this item
 
-usersAbstain: a list of users that have abstained from voting on this item
+- usersAbstain: a list of users that have abstained from voting on this item
 
 startTime: a Date().toString() that is determined by the end time of the previous item.  If this is the first item it inherits the start time of the meeting.
 
 endTime:  a Date().toString() that is determined by the start time + the duration of the agenda item.
+
+### POST /meetings/:meetingID/items/
+
+This endpoint is for adding a new item to a given meeting.
+
+Request body:
+
+Like the meeting post this Post requires that you do not ID feild when initalizing a new
+
+body response: *see GET /meetings/:meetingID/items/*
+
+### PATCH /meetings/:meetingID/items/
+
