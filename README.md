@@ -308,3 +308,5 @@ the following are required fields for this patch:
 - user : this field specifies the user to update
 
 - vote: this specifies which vote position to take
+
+body response: *see GET /meetings/:meetingID/items/:itemID*
