@@ -240,3 +240,71 @@ body response: *see GET /meetings/:meetingID/items/*
 
 ### PATCH /meetings/:meetingID/items/
 
+This endpoint is for updating agenda items and the data within.
+
+Request body example:
+```
+{
+	"patch" : {
+		"id" : "1dk4ife94jz0c8soh",
+		"name" : "From Poop",
+		"description" : "hello there",
+		"timeAlloted" : 180000
+	},
+	"pos" : 0
+}
+```
+
+the following are the required fields for this patch:
+
+- patch {id}: the body fields you wish to patch.  must include an ID or an error will be thrown.
+
+- pos: the indicated position -1 if you do not wish to change the position.
+
+body response: *see GET /meetings/:meetingID/items*
+
+### GET /meetings/:meetingID/items/:itemID
+
+this endpoint is for fetching a specific item
+
+body response:
+
+```
+{
+    "id": "1dk4ifai8jz0bixwj",
+    "name": "example",
+    "description": "description",
+    "timeAllotted": 60000,
+    "votable": true,
+    "usersAye": [],
+    "usersNay": [
+        {
+            "name": "Avynn"
+        }
+    ],
+    "usersAbstain": [],
+    "startTime": "2019-08-06T21:10:59.042Z",
+    "endTime": "2019-08-06T21:11:59.042Z"
+}
+```
+
+### PATCH /meetings/:meetingID/items/:itemID
+
+this endpoint is for updating a user's vote
+
+Request body example:
+
+```
+{
+	"user" : {
+		"name" : "Avynn"	
+	},
+	"vote" : 2
+}
+```
+
+the following are required fields for this patch:
+
+- user : this field specifies the user to update
+
+- vote: this specifies which vote position to take
