@@ -1,4 +1,5 @@
 import VotePanel from './VotePanel';
+import fetch from 'isomorphic-unfetch';
 
 class Item extends React.Component {
     constructor(props){
@@ -18,31 +19,61 @@ class Item extends React.Component {
             currVotableStatus: this.props.Data.votable,
         }
 
+        this.edit = {
+            patch : {
+                id : this.props.Data.id
+            },
+            pos : this.props.pos
+        }
+
         this.changeToEditHanlder = this.changeToEditHanlder.bind(this);
         this.handleTitleChange = this.handleTitleChange.bind(this);
+        this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
         this.handleVotableChange = this.handleVotableChange.bind(this);
     }
 
     changeToEditHanlder(){
         let newState = !this.state.editing;
-        
-        //if editing is true send patch request.
+        let propsRef = this.props;
+
+        if(this.state.editing){
+            fetch(`http://localhost:8080/meetings/${this.props.meetingID}/items/`, {
+                method: 'PATCH',
+                headers: {
+                    'content-type' : 'application/json'
+                },
+                body: JSON.stringify(this.edit)
+            }).then(async function(response){
+                let body = await response.json();
+
+                propsRef.refreshListCallback(body);
+            });
+        }
+
+
+        this.edit = {
+            patch : {
+                id : this.props.Data.id
+            },
+            pos : this.props.pos
+        }
 
         this.setState({editing: newState});
     }
 
     handleTitleChange(event){
         this.setState({currTitle: event.target.value});
+        this.edit.patch.name = event.target.value;
     }
 
     handleDescriptionChange(event){
         this.setState({currDescription: event.target.value});
+        this.edit.patch.description = event.target.value;
     }
 
     handleVotableChange(event){
-        console.log(event.target.checked);
-
         this.setState({currVotableStatus: event.target.checked});
+        this.edit.patch.votable = event.target.checked;
     }
 
     render(){

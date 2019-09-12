@@ -259,7 +259,7 @@ the following are the required fields for this patch:
 
 - patch {id}: the body fields you wish to patch.  must include an ID or an error will be thrown.
 
-- pos: the indicated position -1 if you do not wish to change the position.
+- pos: the indicated position -1 if you wish to delet this item.
 
 body response: *see GET /meetings/:meetingID/items*
 
