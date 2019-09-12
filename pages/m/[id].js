@@ -1,7 +1,9 @@
 import { useRouter } from 'next/router';
 import Layout from '../../comps/Layout';
 import Meeting from '../../comps/Meeting';
-import Link from 'next/link'
+import Link from 'next/link';
+import fetch from 'isomorphic-unfetch';
+
 
 const MeetingPage = function(props){
     const router = useRouter();

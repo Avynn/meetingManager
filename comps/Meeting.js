@@ -5,11 +5,13 @@ class Meeting extends React.Component {
     constructor(props){
         super(props);
 
-        this.items = props.data.items;
+        //this.items = props.data.items;
     }
 
     render() {
         let options  = {hour:"numeric", minute: "numeric", timeStyle:"long", hour12: true}
+
+        console.log(this.props.data);
 
         return (
         <div>

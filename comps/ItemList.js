@@ -1,6 +1,8 @@
 import Item from './Item';
 
 const ItemList = function(props){
+    console.log(props);
+
     return (
     <div>
         <h3>Items: </h3>
