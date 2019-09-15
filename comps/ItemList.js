@@ -12,20 +12,19 @@ class ItemList extends React.Component {
     }
 
     refreshList(newItems){
-        console.log("Ping!");
-
         this.setState({items: newItems});
     }
 
     render(){
         var key = -1;
+        let maxPos = this.state.items.length;
 
         return (
             <div>
                 <h3>Items: </h3>
                 {this.state.items.map((item) => {
                     key ++;
-                    return <Item pos={key} Data={item} meetingID={this.props.meetingID} refreshListCallback={this.refreshList}/>
+                    return <Item pos={key} Data={item} meetingID={this.props.meetingID} refreshListCallback={this.refreshList} maxPos={maxPos}/>
                 })}
             </div>
         );

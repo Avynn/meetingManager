@@ -9,6 +9,8 @@
     "isomorphic-unfetch": "^3.0.0",
     "npm": "^6.10.1",
     "react-datepicker": "^2.8.0",
+    "react-number-picker": "^1.0.5",
+    "react-numeric-input": "^2.2.3",
     "recharts": "^1.7.1"
   },
   "devDependencies": {

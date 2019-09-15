@@ -36,7 +36,7 @@ exports.Item = class {
         //These will have to be inittied like meetings init items in the futre.
         newItem.usersAye = obj.hasOwnProperty('usersAye') ? obj.usersAye : newItem.usersAye;
         newItem.usersNay = obj.hasOwnProperty('usersNay') ? obj.usersNay : newItem.usersNay;
-        newItem.usersAbstain = obj.hasOwnProperty('usersAbstain') ? obj.usersAbstain : newItem.abstain;
+        newItem.usersAbstain = obj.hasOwnProperty('usersAbstain') ? obj.usersAbstain : newItem.usersAbstain;
 
         return newItem;
     }

@@ -1,5 +1,8 @@
 import VotePanel from './VotePanel';
 import fetch from 'isomorphic-unfetch';
+import NumericInput from "react-numeric-input";
+
+//import "react-number-picker/dist/style.css";
 
 class Item extends React.Component {
     constructor(props){
@@ -17,6 +20,7 @@ class Item extends React.Component {
             currDescription: this.props.Data.description,
             currAllottedTime: this.props.Data.timeAllotted,
             currVotableStatus: this.props.Data.votable,
+            currPos: this.props.pos
         }
 
         this.edit = {
@@ -30,6 +34,7 @@ class Item extends React.Component {
         this.handleTitleChange = this.handleTitleChange.bind(this);
         this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
         this.handleVotableChange = this.handleVotableChange.bind(this);
+        this.handlePositionChange = this.handlePositionChange.bind(this);
     }
 
     changeToEditHanlder(){
@@ -76,6 +81,13 @@ class Item extends React.Component {
         this.edit.patch.votable = event.target.checked;
     }
 
+    handlePositionChange(newPos){
+        //setState uneeded for this component...
+        console.log(newPos);
+
+        this.edit.pos = newPos - 1
+    }
+
     render(){
         /*
         RENDER DESCRIPTION:
@@ -86,6 +98,7 @@ class Item extends React.Component {
         */
 
         let options  = {hour:"numeric", minute: "numeric", timeStyle:"long", hour12: true} //Options parameter for date string
+
         let voteData = this.props.Data.votable ? [{name: 'Aye', value: this.props.Data.usersAye.length},{name: 'Nay', value: this.props.Data.usersNay.length},{name:'Abstain', value: this.props.Data.usersAbstain.length}] : null; //Severely duct-taped, something is wrong with the model... sigh
         let editing = this.state.editing;
 
@@ -120,8 +133,12 @@ class Item extends React.Component {
                 </label>
                 <label>
                     votable:
-                    <input type="checkbox" onChange={this.handleVotableChange}/>
+                    <input type="checkbox" checked={this.state.currVotableStatus} onChange={this.handleVotableChange}/>
                     <br />
+                </label>
+                <label>
+                    position:<br />
+                    <NumericInput step={1} value={this.state.currPos + 1} min={1} max={this.props.maxPos} onChange={this.handlePositionChange} snap/>
                 </label>
             </form>
         </div>)
