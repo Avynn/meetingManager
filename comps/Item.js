@@ -15,7 +15,7 @@ class Item extends React.Component {
         }
 
         this.state = {
-            editing: false,
+            editing: this.props.editing,
             currTitle: this.props.Data.name,
             currDescription: this.props.Data.description,
             currAllottedTime: this.props.Data.timeAllotted,
@@ -41,13 +41,25 @@ class Item extends React.Component {
         let newState = !this.state.editing;
         let propsRef = this.props;
 
-        if(this.state.editing){
+        if(this.state.editing && !this.props.newItem){
             fetch(`http://localhost:8080/meetings/${this.props.meetingID}/items/`, {
                 method: 'PATCH',
                 headers: {
                     'content-type' : 'application/json'
                 },
                 body: JSON.stringify(this.edit)
+            }).then(async function(response){
+                let body = await response.json();
+
+                propsRef.refreshListCallback(body);
+            });
+        } else if(this.state.editing && this.props.newItem){
+            fetch(`http://localhost:8080/meetings/${this.props.meetingID}/items/`, {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify(this.edit.patch)
             }).then(async function(response){
                 let body = await response.json();
 
@@ -83,8 +95,6 @@ class Item extends React.Component {
 
     handlePositionChange(newPos){
         //setState uneeded for this component...
-        console.log(newPos);
-
         this.edit.pos = newPos - 1
     }
 
