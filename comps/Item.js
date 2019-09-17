@@ -146,10 +146,10 @@ class Item extends React.Component {
                     <input type="checkbox" checked={this.state.currVotableStatus} onChange={this.handleVotableChange}/>
                     <br />
                 </label>
-                <label>
+                {this.props.newItem? null : <label>
                     position:<br />
                     <NumericInput step={1} value={this.state.currPos + 1} min={1} max={this.props.maxPos} onChange={this.handlePositionChange} snap/>
-                </label>
+                </label>}
             </form>
         </div>)
 
